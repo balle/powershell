@@ -9,9 +9,17 @@ folder that contains process names of all processes that you normally run.
 
 ``Get-Process | Select-Object -ExpandProperty Name -Unique | Sort-Object > .\Documents\develop\powershell\running-processes.txt``
 
-To run the process monitor every minute add a scheduler job
+To run the process monitor every minute add a scheduler job as admin
 
 ```
 $trigger = New-JobTrigger -AtStartup -RandomDelay (New-TimeSpan -Seconds (Get-Random -Minimum 30 -Maximum 60))
 Register-ScheduledJob -Name 'Process Monitor' -FilePath 'C:\Path\to\process_monitor.ps1' -Trigger $trigger
 ```
+
+To start the job manually exec
+
+``(Get-ScheduledJob -Name 'Process Monitor').StartJob()``
+
+And to delete it
+
+```Unregister-ScheduledJob -Name 'Process Monitor'```
